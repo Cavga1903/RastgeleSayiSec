@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .red-bold {
+      color: red;
+      font-weight: bold;
+    }
+    
+    .number-span {
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<button id="sortButton" onclick="sortNumbers()">Sırala</button>
+<button id="randomButton" onclick="selectRandomNumber()" disabled>Rastgele Sayı Seç</button>
+<div id="numberContainer"></div>
+
+<script>
+  let numbers = [];
+  let sorted = false;
+
+  function generateNumbers() {
+    for (let i = -1; i <= 99; i++) {
+      numbers.push(i);
+    }
+  }
+
+  function displayNumbers() {
+    const container = document.getElementById("numberContainer");
+    container.innerHTML = "";
+
+    for (let i = 0; i < numbers.length; i++) {
+      const span = document.createElement("span");
+      span.textContent = numbers[i];
+      span.classList.add("number-span");
+      container.appendChild(span);
+      
+      if ((i + 1) % 10 === 0) {
+        container.appendChild(document.createElement("br"));
+      } else {
+        container.appendChild(document.createTextNode(" "));
+      }
+    }
+  }
+
+  function sortNumbers() {
+    if (!sorted) {
+      numbers.sort((a, b) => a - b);
+      displayNumbers();
+      sorted = true;
+      document.getElementById("sortButton").disabled = true;
+      document.getElementById("randomButton").disabled = false;
+    }
+  }
+
+  function selectRandomNumber() {
+    const randomNumber = Math.floor(Math.random() * numbers.length);
+    const container = document.getElementById("numberContainer");
+    const spans = container.getElementsByTagName("span");
+
+    for (let i = 0; i < spans.length; i++) {
+      spans[i].classList.remove("red-bold");
+    }
+
+    spans[randomNumber].classList.add("red-bold");
+  }
+
+  generateNumbers();
+</script>
+
+</body>
+</html>
+
